@@ -1,14 +1,16 @@
-import requests
-from bs4 import BeautifulSoup
-import re
-from tidecast.constants import LOCATIONS
 import json
 import logging
-from tidecast.exceptions import TidecastError
-from tidecast.models import TideDay, LowTide, LowDaylightTides
-from typing import List
-from pydantic import ValidationError
+import re
 import sys
+from typing import List
+
+import requests
+from bs4 import BeautifulSoup
+from pydantic import ValidationError
+
+from tidecast.constants import LOCATIONS
+from tidecast.exceptions import TidecastError
+from tidecast.models import LowDaylightTides, LowTide, TideDay
 
 logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger(__name__)
@@ -24,7 +26,9 @@ def main() -> None:
         except TidecastError as e:
             _logger.error(f"Could not find low tides at {location} due to: {e}")
         except Exception as ex:
-            _logger.exception(f"There was an unhandled exception while trying to find tide data for {location}: {ex}")
+            _logger.exception(
+                f"There was an unhandled exception while trying to find tide data for {location}: {ex}"
+            )
             sys.exit(1)
 
     _pretty_print_results(results)
@@ -51,7 +55,7 @@ def _pretty_print_results(results):
         for day in data:
             print(f"  {day.date}")
             if not day.tides:
-                print(f"    No low tides during the day")
+                print("    No low tides during the day")
             else:
                 for tide in day.tides:
                     print(f"    Low Tide: {tide.time} Height: {tide.height}")
@@ -90,9 +94,13 @@ def _parse_tide_data_from_page(html_page_data: str) -> List[TideDay]:
             raise TidecastError("Could not find CDATA section in the given page data")
 
         # Strip some junk away from the edges of the cdata, so we can turn it into a plain object
-        json_str: str = str(cdata.extract()).lstrip("\n//<![CDATA[\nwindow.FCGON =").rstrip(";\n//]]>\n")
+        json_str: str = (
+            str(cdata.extract())
+            .lstrip("\n//<![CDATA[\nwindow.FCGON =")
+            .rstrip(";\n//]]>\n")
+        )
 
-        return [TideDay(**day) for day in json.loads(json_str)['tideDays']]
+        return [TideDay(**day) for day in json.loads(json_str)["tideDays"]]
 
     except (json.JSONDecoder, KeyError, ValidationError) as e:
         raise TidecastError(
@@ -108,8 +116,11 @@ def _find_low_daylight_tides(tide_days: List[TideDay]) -> List[LowDaylightTides]
     for tide_day in tide_days:
         low_tides = []
         for tide in tide_day.tides:
-            # Some days have no low tides duuring daylight hours
-            if tide_day.sunrise < tide.timestamp < tide_day.sunset and tide.type == 'low':
+            # Some days have no low tides during daylight hours
+            if (
+                tide_day.sunrise <= tide.timestamp <= tide_day.sunset
+                and tide.type == "low"
+            ):
                 low_tides.append(LowTide(height=tide.height, time=tide.time))
         results.append(LowDaylightTides(date=tide_day.date, tides=low_tides))
 

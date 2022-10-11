@@ -1,4 +1,5 @@
 from typing import List, Optional
+
 from pydantic import BaseModel
 
 
@@ -6,7 +7,7 @@ class Tide(BaseModel):
     timestamp: int
     height: float
     time: str
-    type: Optional[str]
+    type: Optional[str]  # Should probably be an Enum
 
 
 class TideDay(BaseModel):
