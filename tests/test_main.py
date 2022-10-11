@@ -1,5 +1,5 @@
-from tidecast.main import print_hi
+from tidecast.main import main
 
 
 def test_print_hi():
-    print_hi("jack")
+    main()

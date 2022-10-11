@@ -15,4 +15,8 @@ services:
   # - black & isort will format code to address issues
   test:
     <<: *devbox
-    command: docker/run_tests.sh
+    command: bash docker/run_tests.sh
+
+  tidecast:
+    <<: *devbox
+    command: python -m tidecast.main
