@@ -3,7 +3,7 @@
 set -eo pipefail
 
 # only generate html locally
-#pytest tests --cov-report html
+pytest tests --cov-report html
 
 echo "Running MyPy..."
 #mypy tidecast tests

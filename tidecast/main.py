@@ -2,7 +2,7 @@ import json
 import logging
 import re
 import sys
-from typing import List
+from typing import Dict, List
 
 import requests
 from bs4 import BeautifulSoup
@@ -12,13 +12,13 @@ from tidecast.constants import LOCATIONS
 from tidecast.exceptions import TidecastError
 from tidecast.models import LowDaylightTides, LowTide, TideDay
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.ERROR)
 _logger = logging.getLogger(__name__)
 
 
 def main() -> None:
     """Entrypoint"""
-    results = {}
+    results: Dict[str, List[LowDaylightTides]] = {}
     for location, url in LOCATIONS:
         _logger.info(f"Finding low tides for {location}...")
         try:
