@@ -1,7 +1,6 @@
 import json
 import logging
 import re
-import sys
 from typing import Dict, List
 
 import requests
@@ -29,7 +28,6 @@ def main() -> None:
             _logger.exception(
                 f"There was an unhandled exception while trying to find tide data for {location}: {ex}"
             )
-            sys.exit(1)
 
     _pretty_print_results(results)
 
@@ -102,7 +100,7 @@ def _parse_tide_data_from_page(html_page_data: str) -> List[TideDay]:
 
         return [TideDay(**day) for day in json.loads(json_str)["tideDays"]]
 
-    except (json.JSONDecoder, KeyError, ValidationError) as e:
+    except (json.JSONDecodeError, KeyError, ValidationError) as e:
         raise TidecastError(
             "The parsed CDATA was not formatted as expected, so we failed to parse it."
         ) from e

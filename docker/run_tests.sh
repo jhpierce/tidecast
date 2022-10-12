@@ -6,7 +6,7 @@ set -eo pipefail
 pytest tests --cov-report html
 
 echo "Running MyPy..."
-#mypy tidecast tests
+mypy tidecast tests
 
 echo "Running black..."
 black tidecast tests
