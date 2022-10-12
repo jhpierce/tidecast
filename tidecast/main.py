@@ -11,7 +11,7 @@ from tidecast.constants import LOCATIONS
 from tidecast.exceptions import TidecastError
 from tidecast.models import LowDaylightTides, LowTide, TideDay
 
-logging.basicConfig(level=logging.ERROR)
+logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger(__name__)
 
 
