@@ -28,12 +28,14 @@ docker-compose run test
 
 ### Dev UX
 
+* A few more unit tests, ensuring that non-200 responses are handled correctly
 * Configurable log levels
 * Ability to run linting and testing separately
 * Branch protection rules, merging only with high enough test coverage
 
 ### Features
 
+* Scraping from CDATA section is flaky, since it relies on an implementation detail of the page. Web scrapers are generally a bit flaky, but there are other ways to collect this data. We could fall back to parsing the table entity itself, for example. 
 * Auto-discovering location pages through searching on the home page
 * No hardcoded locations, input via a CSV or similar file
 * Parallelized requests to load page content

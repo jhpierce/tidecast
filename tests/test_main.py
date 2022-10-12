@@ -27,7 +27,3 @@ def test_parse_tide_data_from_page__unexpected_html__errors_caught(filename):
     with open(f"tests/resources/tide_forecasts/{filename}", "r") as f:
         with pytest.raises(TidecastError):
             _parse_tide_data_from_page(f.read())
-
-
-def test_main__data_collection_exception__scraper_continues():
-    pass
