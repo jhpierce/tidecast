@@ -1,6 +1,6 @@
 # Welcome to "Tidecast"!
 
-This is a very simple web scraper built as part of the Gridium interview process. It polls tide-forecast.com for a few hardcoded locations and finds the low tides that occur during daylight hours over the course of the next month and prints them to stdout.~~~~
+This is a very simple web scraper built as part of the Gridium interview process. It polls tide-forecast.com for a few hardcoded locations and finds the low tides that occur during daylight hours over the course of the next month and prints them to stdout.
 
 # Instructions for Running
 
